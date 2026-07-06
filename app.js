@@ -169,14 +169,12 @@ function renderEjercicios(sesion) {
 }
 
 function renderReps(ej) {
-  if (ej.reps !== null && ej.reps !== undefined && ej.reps !== '') {
-    return `<span>· ${ej.reps} reps</span>`;
-  }
+  const vacio = (ej.reps === null || ej.reps === undefined || ej.reps === '');
   return `
-    <span class="reps-editable ${ej.reps ? '' : 'vacio'}">
+    <span class="reps-editable ${vacio ? 'vacio' : ''}">
       · <input type="number" inputmode="numeric" step="1"
           data-reps="${ej.id}"
-          value="${ej.reps ?? ''}"
+          value="${vacio ? '' : ej.reps}"
           placeholder="?"> reps
     </span>
   `;

@@ -1,4 +1,4 @@
-const CACHE = 'mi-rutina-v3';
+const CACHE = 'mi-rutina-v5';
 const ARCHIVOS = [
   './',
   './index.html',
@@ -6,8 +6,8 @@ const ARCHIVOS = [
   './app.js',
   './manifest.json',
   './data/ejercicios.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-192-v2.png',
+  './icons/icon-512-v2.png'
 ];
 
 self.addEventListener('install', event => {
