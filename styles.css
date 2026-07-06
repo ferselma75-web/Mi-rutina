@@ -255,7 +255,36 @@ button {
   color: var(--texto-suave);
   white-space: nowrap;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
+
+.reps-editable {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--texto-suave);
+}
+
+.reps-editable.vacio { color: var(--pendiente); }
+
+.reps-editable input {
+  width: 26px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--texto-tenue);
+  font-family: var(--fuente-datos);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--texto);
+  text-align: center;
+  outline: none;
+  padding: 0 0 1px;
+}
+
+.reps-editable.vacio input { border-bottom-color: var(--pendiente); }
+.reps-editable input::placeholder { color: var(--pendiente); opacity: .9; }
 
 .fila-cargas {
   display: flex;
