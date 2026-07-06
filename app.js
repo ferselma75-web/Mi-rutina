@@ -68,13 +68,18 @@ function renderInicio() {
 }
 
 function esComplet(ej) {
+  const repsOk = ej.reps !== null && ej.reps !== undefined && ej.reps !== '';
+
+  let pesoOk;
   if (ej.tipo === 'alternativa') {
-    return ej.opciones.some(o => o.peso !== null && o.peso !== undefined && o.peso !== '');
+    pesoOk = ej.opciones.some(o => o.peso !== null && o.peso !== undefined && o.peso !== '');
+  } else if (ej.tipo === 'mancuernasVariable') {
+    pesoOk = Array.isArray(ej.pesos) && ej.pesos.every(p => p !== null && p !== '');
+  } else {
+    pesoOk = ej.peso !== null && ej.peso !== undefined && ej.peso !== '';
   }
-  if (ej.tipo === 'mancuernasVariable') {
-    return Array.isArray(ej.pesos) && ej.pesos.every(p => p !== null && p !== '');
-  }
-  return ej.peso !== null && ej.peso !== undefined && ej.peso !== '';
+
+  return pesoOk && repsOk;
 }
 
 // ===== Pantalla de sesión =====
@@ -130,7 +135,10 @@ function renderEjercicios(sesion) {
           <div class="ejercicio-nombre">${ej.nombre}</div>
           ${ej.nota ? `<div class="ejercicio-nota">${ej.nota}</div>` : ''}
         </div>
-        <div class="ejercicio-series">${ej.series} series · ${ej.reps ?? '?'} reps</div>
+        <div class="ejercicio-series">
+          <span>${ej.series} series</span>
+          ${renderReps(ej)}
+        </div>
       </div>
       ${htmlOpciones}
       ${htmlCargas}
@@ -142,6 +150,12 @@ function renderEjercicios(sesion) {
       input.addEventListener('input', () => onCambioPeso(ej, input));
     });
 
+    // Listener del input de repeticiones (solo si es editable)
+    const inputReps = div.querySelector('input[data-reps]');
+    if (inputReps) {
+      inputReps.addEventListener('input', () => onCambioReps(ej, inputReps));
+    }
+
     // Listeners de chips de alternativa
     div.querySelectorAll('.chip-opcion').forEach(chip => {
       chip.addEventListener('click', () => {
@@ -152,6 +166,20 @@ function renderEjercicios(sesion) {
   });
 
   actualizarProgreso(sesion);
+}
+
+function renderReps(ej) {
+  if (ej.reps !== null && ej.reps !== undefined && ej.reps !== '') {
+    return `<span>· ${ej.reps} reps</span>`;
+  }
+  return `
+    <span class="reps-editable ${ej.reps ? '' : 'vacio'}">
+      · <input type="number" inputmode="numeric" step="1"
+          data-reps="${ej.id}"
+          value="${ej.reps ?? ''}"
+          placeholder="?"> reps
+    </span>
+  `;
 }
 
 function campoCarga(idCampo, tipo, valor, etiqueta) {
@@ -188,6 +216,21 @@ function onCambioPeso(ej, input) {
   const tarjeta = input.closest('.ejercicio');
   const carga = input.closest('.campo-carga');
   carga.classList.toggle('vacio', valor === null);
+  tarjeta.classList.toggle('completo', esComplet(ej));
+  tarjeta.classList.toggle('pendiente', !esComplet(ej));
+
+  const sesion = datos.sesiones.find(s => s.id === sesionActualId);
+  actualizarProgreso(sesion);
+}
+
+function onCambioReps(ej, input) {
+  const valor = input.value === '' ? null : parseInt(input.value, 10);
+  ej.reps = valor;
+
+  const span = input.closest('.reps-editable');
+  if (span) span.classList.toggle('vacio', valor === null);
+
+  const tarjeta = input.closest('.ejercicio');
   tarjeta.classList.toggle('completo', esComplet(ej));
   tarjeta.classList.toggle('pendiente', !esComplet(ej));
 
