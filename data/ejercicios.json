@@ -1,0 +1,330 @@
+{
+  "sesiones": [
+    {
+      "id": "pierna-posterior",
+      "nombre": "Pierna",
+      "enfoque": "Posterior",
+      "color": "#C1622D",
+      "colorSuave": "#3A2A20",
+      "ejercicios": [
+        {
+          "id": "pp-1",
+          "nombre": "Peso Muerto",
+          "series": 3,
+          "reps": 5,
+          "tipo": "total",
+          "peso": 135
+        },
+        {
+          "id": "pp-2",
+          "nombre": "Extensión de cuádriceps",
+          "series": 2,
+          "reps": null,
+          "tipo": "porLado",
+          "peso": null
+        },
+        {
+          "id": "pp-3",
+          "nombre": "Hip thrust",
+          "series": 3,
+          "reps": 10,
+          "tipo": "porLado",
+          "peso": null
+        },
+        {
+          "id": "pp-4",
+          "nombre": "Gemelos",
+          "series": 2,
+          "reps": null,
+          "tipo": "porLado",
+          "peso": null
+        },
+        {
+          "id": "pp-5",
+          "nombre": "Abducción",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "pp-6",
+          "nombre": "Aducción",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "pp-7",
+          "nombre": "Abdominales",
+          "series": 2,
+          "reps": 10,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "pp-8",
+          "nombre": "Pec Deck / Pájaros invertidos",
+          "series": 3,
+          "reps": null,
+          "tipo": "alternativa",
+          "opciones": [
+            { "nombre": "Pec Deck", "tipo": "total", "peso": null },
+            { "nombre": "Pájaros invertidos", "tipo": "mancuernaUnica", "peso": null }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "torso-espalda",
+      "nombre": "Torso",
+      "enfoque": "Espalda",
+      "color": "#268576",
+      "colorSuave": "#1E3733",
+      "ejercicios": [
+        {
+          "id": "te-1",
+          "nombre": "Remo con barra",
+          "series": 3,
+          "reps": 7,
+          "tipo": "porLado",
+          "peso": 37.5
+        },
+        {
+          "id": "te-2",
+          "nombre": "Jalón unilateral",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null,
+          "nota": "por brazo"
+        },
+        {
+          "id": "te-3",
+          "nombre": "Dorsal inferior",
+          "series": 2,
+          "reps": null,
+          "tipo": "porLado",
+          "peso": null
+        },
+        {
+          "id": "te-4",
+          "nombre": "Apertura",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "te-5",
+          "nombre": "Apertura polea alta",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "te-6",
+          "nombre": "Elevaciones laterales máquina",
+          "series": 3,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "te-7",
+          "nombre": "Biceps unilateral Scott",
+          "series": 3,
+          "reps": null,
+          "tipo": "porLado",
+          "peso": null,
+          "nota": "por brazo"
+        },
+        {
+          "id": "te-8",
+          "nombre": "Máquina tríceps",
+          "series": 3,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "te-9",
+          "nombre": "Tríceps katana",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "te-10",
+          "nombre": "Abdominales laterales",
+          "series": 2,
+          "reps": 10,
+          "tipo": "total",
+          "peso": null
+        }
+      ]
+    },
+    {
+      "id": "pierna-anterior",
+      "nombre": "Pierna",
+      "enfoque": "Anterior",
+      "color": "#C99A2E",
+      "colorSuave": "#3A331E",
+      "ejercicios": [
+        {
+          "id": "pa-1",
+          "nombre": "Prensa pendular",
+          "series": 3,
+          "reps": 10,
+          "tipo": "porLado",
+          "peso": 85
+        },
+        {
+          "id": "pa-2",
+          "nombre": "Extensión de cuádriceps",
+          "series": 2,
+          "reps": 8,
+          "tipo": "porLado",
+          "peso": null
+        },
+        {
+          "id": "pa-3",
+          "nombre": "Femoral unilateral",
+          "series": 3,
+          "reps": null,
+          "tipo": "porLado",
+          "peso": null
+        },
+        {
+          "id": "pa-4",
+          "nombre": "Abducción",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "pa-5",
+          "nombre": "Aducción",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "pa-6",
+          "nombre": "Abdominales",
+          "series": 2,
+          "reps": 10,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "pa-7",
+          "nombre": "Pec Deck / Pájaros invertidos",
+          "series": 3,
+          "reps": null,
+          "tipo": "alternativa",
+          "opciones": [
+            { "nombre": "Pec Deck", "tipo": "total", "peso": null },
+            { "nombre": "Pájaros invertidos", "tipo": "mancuernaUnica", "peso": null }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "torso-pecho",
+      "nombre": "Torso",
+      "enfoque": "Pecho",
+      "color": "#8B5A8F",
+      "colorSuave": "#332738",
+      "ejercicios": [
+        {
+          "id": "tp-1",
+          "nombre": "Press Mancuernas",
+          "series": 3,
+          "reps": 6,
+          "tipo": "mancuernasVariable",
+          "pesos": [35, 32.5, 30]
+        },
+        {
+          "id": "tp-2",
+          "nombre": "Máquina press inclinado",
+          "series": 2,
+          "reps": null,
+          "tipo": "porLado",
+          "peso": 35
+        },
+        {
+          "id": "tp-3",
+          "nombre": "Máquina hombros",
+          "series": 2,
+          "reps": 8,
+          "tipo": "porLado",
+          "peso": 30
+        },
+        {
+          "id": "tp-4",
+          "nombre": "Jalón ancho",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "tp-5",
+          "nombre": "Remo unilateral",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null,
+          "nota": "por brazo"
+        },
+        {
+          "id": "tp-6",
+          "nombre": "Curl bayesian banco",
+          "series": 3,
+          "reps": null,
+          "tipo": "porLado",
+          "peso": null
+        },
+        {
+          "id": "tp-7",
+          "nombre": "Extensión tríceps unilateral",
+          "series": 3,
+          "reps": null,
+          "tipo": "total",
+          "peso": null,
+          "nota": "por brazo"
+        },
+        {
+          "id": "tp-8",
+          "nombre": "Tríceps katana",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "tp-9",
+          "nombre": "Elevaciones laterales máquina",
+          "series": 3,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        },
+        {
+          "id": "tp-10",
+          "nombre": "Abdominales laterales",
+          "series": 2,
+          "reps": null,
+          "tipo": "total",
+          "peso": null
+        }
+      ]
+    }
+  ]
+}

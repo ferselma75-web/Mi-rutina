@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+<title>Mi Rutina</title>
+<meta name="theme-color" content="#15171C">
+<meta name="description" content="Consulta y registro de pesos para tus sesiones de fuerza">
+
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mi Rutina">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===== PANTALLA: INICIO ===== -->
+  <section id="pantalla-inicio" class="pantalla activa">
+    <header class="cabecera-inicio">
+      <p class="eyebrow">Hoy toca</p>
+      <h1 class="titulo-app">Mi Rutina</h1>
+    </header>
+
+    <div id="disco-sesiones" class="disco-sesiones"></div>
+
+    <button id="btn-config" class="btn-config" aria-label="Ajustes de sincronización">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1.08-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1.08 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span>Ajustes y sincronización</span>
+    </button>
+  </section>
+
+  <!-- ===== PANTALLA: SESIÓN ===== -->
+  <section id="pantalla-sesion" class="pantalla">
+    <header class="cabecera-sesion">
+      <button class="btn-volver" id="btn-volver-sesion" aria-label="Volver">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="titulo-sesion">
+        <p class="eyebrow" id="sesion-enfoque">Enfoque</p>
+        <h2 id="sesion-nombre">Sesión</h2>
+      </div>
+      <span class="badge-progreso" id="sesion-progreso">0/0</span>
+    </header>
+
+    <div id="lista-ejercicios" class="lista-ejercicios"></div>
+
+    <div class="pie-sesion">
+      <button id="btn-guardar" class="btn-guardar">Guardar pesos de hoy</button>
+    </div>
+  </section>
+
+  <!-- ===== PANTALLA: AJUSTES ===== -->
+  <section id="pantalla-ajustes" class="pantalla">
+    <header class="cabecera-sesion">
+      <button class="btn-volver" id="btn-volver-ajustes" aria-label="Volver">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="titulo-sesion">
+        <p class="eyebrow">Datos</p>
+        <h2>Sincronización con GitHub</h2>
+      </div>
+    </header>
+
+    <div class="panel-ajustes">
+      <p class="texto-ajustes">Tus pesos se guardan siempre en este móvil al instante. Si además quieres tener una copia con histórico en tu repositorio de GitHub, rellena estos datos una vez:</p>
+
+      <label class="campo-ajuste">
+        <span>Usuario / organización</span>
+        <input type="text" id="input-owner" placeholder="p.ej. martin">
+      </label>
+      <label class="campo-ajuste">
+        <span>Nombre del repositorio</span>
+        <input type="text" id="input-repo" placeholder="p.ej. mi-rutina">
+      </label>
+      <label class="campo-ajuste">
+        <span>Ruta del archivo de datos</span>
+        <input type="text" id="input-path" placeholder="data/ejercicios.json" value="data/ejercicios.json">
+      </label>
+      <label class="campo-ajuste">
+        <span>Token de acceso personal (fine-grained, solo lectura/escritura de Contents)</span>
+        <input type="password" id="input-token" placeholder="ghp_...">
+      </label>
+
+      <button id="btn-guardar-config" class="btn-guardar-config">Guardar configuración</button>
+      <p id="estado-sync" class="estado-sync"></p>
+
+      <div class="aviso-token">
+        <strong>Importante:</strong> el token se guarda solo en este móvil (localStorage), nunca se sube al repositorio. Crea un token de tipo "Fine-grained" limitado únicamente a este repositorio, con permiso de Contents en lectura y escritura, en GitHub → Settings → Developer settings.
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
