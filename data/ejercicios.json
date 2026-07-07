@@ -1,4 +1,5 @@
 {
+  "version": 2,
   "sesiones": [
     {
       "id": "pierna-posterior",
@@ -110,11 +111,14 @@
         },
         {
           "id": "te-4",
-          "nombre": "Apertura",
+          "nombre": "Apertura Etenon / Apertura contractora",
           "series": 2,
           "reps": null,
-          "tipo": "total",
-          "peso": null
+          "tipo": "alternativa",
+          "opciones": [
+            { "nombre": "Apertura Etenon", "tipo": "porLado", "peso": null },
+            { "nombre": "Apertura contractora", "tipo": "total", "peso": null }
+          ]
         },
         {
           "id": "te-5",
@@ -126,11 +130,14 @@
         },
         {
           "id": "te-6",
-          "nombre": "Elevaciones laterales máquina",
+          "nombre": "Elevaciones laterales máquina / Elevaciones laterales en banco",
           "series": 3,
           "reps": null,
-          "tipo": "total",
-          "peso": null
+          "tipo": "alternativa",
+          "opciones": [
+            { "nombre": "Elevaciones laterales máquina", "tipo": "total", "peso": null },
+            { "nombre": "Elevaciones laterales en banco", "tipo": "mancuernaUnica", "peso": null }
+          ]
         },
         {
           "id": "te-7",
@@ -310,11 +317,14 @@
         },
         {
           "id": "tp-9",
-          "nombre": "Elevaciones laterales máquina",
+          "nombre": "Elevaciones laterales máquina / Elevaciones laterales en banco",
           "series": 3,
           "reps": null,
-          "tipo": "total",
-          "peso": null
+          "tipo": "alternativa",
+          "opciones": [
+            { "nombre": "Elevaciones laterales máquina", "tipo": "total", "peso": null },
+            { "nombre": "Elevaciones laterales en banco", "tipo": "mancuernaUnica", "peso": null }
+          ]
         },
         {
           "id": "tp-10",

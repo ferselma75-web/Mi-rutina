@@ -26,16 +26,86 @@ function guardarConfig(c) {
   localStorage.setItem(CLAVE_CONFIG, JSON.stringify(c));
 }
 
+// ===== Migración de datos =====
+const migracionesEspeciales = {
+  // "Apertura" pasó a tener dos variantes: el valor antiguo (tipo total) se coloca
+  // en "Apertura contractora" (misma naturaleza), y "Apertura Etenon" queda pendiente.
+  'te-4': (viejo, nuevo) => {
+    nuevo.opciones[1].peso = viejo.peso ?? null;
+    nuevo.reps = viejo.reps ?? null;
+    nuevo.notaUsuario = viejo.notaUsuario || null;
+  },
+  // "Elevaciones laterales máquina" pasó a tener una segunda variante nueva;
+  // el valor antiguo se conserva en la opción que ya existía.
+  'te-6': (viejo, nuevo) => {
+    nuevo.opciones[0].peso = viejo.peso ?? null;
+    nuevo.reps = viejo.reps ?? null;
+    nuevo.notaUsuario = viejo.notaUsuario || null;
+  },
+  'tp-9': (viejo, nuevo) => {
+    nuevo.opciones[0].peso = viejo.peso ?? null;
+    nuevo.reps = viejo.reps ?? null;
+    nuevo.notaUsuario = viejo.notaUsuario || null;
+  }
+};
+
+function fusionarEjercicio(viejo, nuevo) {
+  if (!viejo) return;
+
+  if (migracionesEspeciales[nuevo.id]) {
+    migracionesEspeciales[nuevo.id](viejo, nuevo);
+    return;
+  }
+
+  // Si la estructura no cambió, se copian los valores tal cual
+  if (viejo.tipo !== nuevo.tipo) return;
+
+  if (nuevo.tipo === 'alternativa') {
+    nuevo._seleccion = viejo._seleccion || 0;
+    nuevo.opciones.forEach((op, i) => {
+      if (viejo.opciones && viejo.opciones[i]) op.peso = viejo.opciones[i].peso ?? null;
+    });
+  } else if (nuevo.tipo === 'mancuernasVariable') {
+    if (Array.isArray(viejo.pesos)) {
+      nuevo.pesos = nuevo.pesos.map((_, i) => viejo.pesos[i] ?? null);
+    }
+  } else {
+    nuevo.peso = viejo.peso ?? null;
+  }
+
+  nuevo.reps = viejo.reps ?? null;
+  nuevo.notaUsuario = viejo.notaUsuario || null;
+}
+
+function migrarDatos(local, remoto) {
+  const nuevos = JSON.parse(JSON.stringify(remoto));
+  nuevos.sesiones.forEach(sesionNueva => {
+    const sesionVieja = local.sesiones.find(s => s.id === sesionNueva.id);
+    if (sesionVieja) sesionNueva.actualizadoEn = sesionVieja.actualizadoEn || null;
+    sesionNueva.ejercicios.forEach(ejNuevo => {
+      const ejViejo = sesionVieja ? sesionVieja.ejercicios.find(e => e.id === ejNuevo.id) : null;
+      fusionarEjercicio(ejViejo, ejNuevo);
+    });
+  });
+  return nuevos;
+}
+
 // ===== Inicialización =====
 async function iniciar() {
   const local = cargarDatosLocales();
-  if (local) {
-    datos = local;
-  } else {
-    const resp = await fetch(RUTA_JSON_INICIAL);
-    datos = await resp.json();
+  const resp = await fetch(RUTA_JSON_INICIAL);
+  const remoto = await resp.json();
+
+  if (!local) {
+    datos = remoto;
     guardarDatosLocales(datos);
+  } else if ((local.version || 1) < (remoto.version || 1)) {
+    datos = migrarDatos(local, remoto);
+    guardarDatosLocales(datos);
+  } else {
+    datos = local;
   }
+
   renderInicio();
   cargarConfigEnFormulario();
   registrarServiceWorker();
