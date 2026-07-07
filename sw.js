@@ -1,4 +1,4 @@
-const CACHE = 'mi-rutina-v5';
+const CACHE = 'mi-rutina-v6';
 const ARCHIVOS = [
   './',
   './index.html',

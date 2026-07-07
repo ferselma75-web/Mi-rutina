@@ -5,6 +5,7 @@ const RUTA_JSON_INICIAL = 'data/ejercicios.json';
 
 let datos = null;
 let sesionActualId = null;
+let snapshotSesion = null;
 
 // ===== Utilidades de almacenamiento local =====
 function cargarDatosLocales() {
@@ -47,8 +48,44 @@ function mostrarPantalla(id) {
   window.scrollTo(0, 0);
 }
 
+// ===== Fechas =====
+function formatFecha(iso) {
+  if (!iso) return 'Sin entrenar aún';
+  const fecha = new Date(iso);
+  const ahora = new Date();
+  const dias = Math.floor((ahora - fecha) / (1000 * 60 * 60 * 24));
+
+  if (dias <= 0) return 'Última vez: hoy';
+  if (dias === 1) return 'Última vez: ayer';
+  if (dias < 7) return `Última vez: hace ${dias} días`;
+  const semanas = Math.floor(dias / 7);
+  if (semanas === 1) return 'Última vez: hace 1 semana';
+  if (semanas < 5) return `Última vez: hace ${semanas} semanas`;
+  const meses = Math.floor(dias / 30);
+  if (meses <= 1) return 'Última vez: hace 1 mes';
+  return `Última vez: hace ${meses} meses`;
+}
+
+function inicioSemana() {
+  const hoy = new Date();
+  const diaSemana = (hoy.getDay() + 6) % 7; // Lunes = 0
+  const lunes = new Date(hoy);
+  lunes.setHours(0, 0, 0, 0);
+  lunes.setDate(hoy.getDate() - diaSemana);
+  return lunes;
+}
+
+function sesionesEstaSemana() {
+  const lunes = inicioSemana();
+  return datos.sesiones.filter(s => s.actualizadoEn && new Date(s.actualizadoEn) >= lunes).length;
+}
+
 // ===== Pantalla inicio: disco de sesiones =====
 function renderInicio() {
+  const banner = document.getElementById('banner-semana');
+  const hechas = sesionesEstaSemana();
+  banner.textContent = `${hechas}/${datos.sesiones.length} sesiones esta semana`;
+
   const cont = document.getElementById('disco-sesiones');
   cont.innerHTML = '';
   datos.sesiones.forEach(sesion => {
@@ -61,6 +98,7 @@ function renderInicio() {
       <p class="disco-enfoque">${sesion.enfoque}</p>
       <p class="disco-nombre">${sesion.nombre}</p>
       <p class="disco-meta">${completos}/${total} pesos anotados</p>
+      <p class="disco-fecha">${formatFecha(sesion.actualizadoEn)}</p>
     `;
     btn.addEventListener('click', () => abrirSesion(sesion.id));
     cont.appendChild(btn);
@@ -86,6 +124,7 @@ function esComplet(ej) {
 function abrirSesion(id) {
   sesionActualId = id;
   const sesion = datos.sesiones.find(s => s.id === id);
+  snapshotSesion = JSON.parse(JSON.stringify(sesion));
 
   document.documentElement.style.setProperty('--acento', sesion.color);
   document.getElementById('sesion-enfoque').textContent = sesion.enfoque;
@@ -97,6 +136,11 @@ function abrirSesion(id) {
   mostrarPantalla('pantalla-sesion');
 }
 
+function snapshotDeEjercicio(ejId) {
+  if (!snapshotSesion) return null;
+  return snapshotSesion.ejercicios.find(e => e.id === ejId) || null;
+}
+
 function renderEjercicios(sesion) {
   const cont = document.getElementById('lista-ejercicios');
   cont.innerHTML = '';
@@ -106,6 +150,7 @@ function renderEjercicios(sesion) {
     div.className = 'ejercicio ' + (esComplet(ej) ? 'completo' : 'pendiente');
     div.style.setProperty('--acento', sesion.color);
 
+    const snap = snapshotDeEjercicio(ej.id);
     let htmlCargas = '';
     let htmlOpciones = '';
 
@@ -119,15 +164,18 @@ function renderEjercicios(sesion) {
       `;
       const idxSel = ej._seleccion || 0;
       const opcionActiva = ej.opciones[idxSel];
-      htmlCargas = campoCarga(ej.id + '-opt' + idxSel, opcionActiva.tipo, opcionActiva.peso, 'peso');
+      const snapOpcion = snap ? snap.opciones[idxSel] : null;
+      htmlCargas = campoCarga(ej.id + '-opt' + idxSel, opcionActiva.tipo, opcionActiva.peso, 'peso', snapOpcion ? snapOpcion.peso : null);
     } else if (ej.tipo === 'mancuernasVariable') {
       htmlCargas = `<div class="fila-cargas">` +
-        ej.pesos.map((p, i) => campoCarga(ej.id + '-m' + i, 'mancuernaUnica', p, 'set ' + (i + 1)))
+        ej.pesos.map((p, i) => campoCarga(ej.id + '-m' + i, 'mancuernaUnica', p, 'set ' + (i + 1), snap ? snap.pesos[i] : null))
           .join('') +
         `</div>`;
     } else {
-      htmlCargas = `<div class="fila-cargas">${campoCarga(ej.id, ej.tipo, ej.peso, 'peso')}</div>`;
+      htmlCargas = `<div class="fila-cargas">${campoCarga(ej.id, ej.tipo, ej.peso, 'peso', snap ? snap.peso : null)}</div>`;
     }
+
+    const notaValor = ej.notaUsuario || '';
 
     div.innerHTML = `
       <div class="ejercicio-cabecera">
@@ -142,6 +190,8 @@ function renderEjercicios(sesion) {
       </div>
       ${htmlOpciones}
       ${htmlCargas}
+      <input type="text" class="campo-nota-usuario" data-notaej="${ej.id}"
+        value="${notaValor.replace(/"/g, '&quot;')}" placeholder="+ Añadir nota (opcional)">
     `;
     cont.appendChild(div);
 
@@ -150,11 +200,17 @@ function renderEjercicios(sesion) {
       input.addEventListener('input', () => onCambioPeso(ej, input));
     });
 
-    // Listener del input de repeticiones (solo si es editable)
+    // Listener del input de repeticiones
     const inputReps = div.querySelector('input[data-reps]');
     if (inputReps) {
       inputReps.addEventListener('input', () => onCambioReps(ej, inputReps));
     }
+
+    // Listener de la nota
+    const inputNota = div.querySelector('input[data-notaej]');
+    inputNota.addEventListener('input', () => {
+      ej.notaUsuario = inputNota.value.trim() || null;
+    });
 
     // Listeners de chips de alternativa
     div.querySelectorAll('.chip-opcion').forEach(chip => {
@@ -180,19 +236,22 @@ function renderReps(ej) {
   `;
 }
 
-function campoCarga(idCampo, tipo, valor, etiqueta) {
+function campoCarga(idCampo, tipo, valor, etiqueta, snapshotValor) {
   const unidad = tipo === 'porLado' ? 'kg / lado'
     : tipo === 'mancuernaUnica' ? 'kg mancuerna'
     : 'kg total';
   const vacio = (valor === null || valor === undefined || valor === '');
+  const esRecord = !vacio && snapshotValor !== null && snapshotValor !== undefined && parseFloat(valor) > parseFloat(snapshotValor);
   return `
-    <div class="campo-carga ${vacio ? 'vacio' : ''}">
+    <div class="campo-carga ${vacio ? 'vacio' : ''} ${esRecord ? 'record' : ''}">
       <label>${etiqueta}</label>
       <input type="number" inputmode="decimal" step="0.5"
         data-campo="${idCampo}"
+        data-snapshot="${snapshotValor ?? ''}"
         value="${vacio ? '' : valor}"
         placeholder="?">
       <span class="unidad">${unidad}</span>
+      <span class="record-star" title="Has subido peso respecto a la última vez">⭐</span>
     </div>
   `;
 }
@@ -213,7 +272,11 @@ function onCambioPeso(ej, input) {
 
   const tarjeta = input.closest('.ejercicio');
   const carga = input.closest('.campo-carga');
+  const snapshotValor = input.dataset.snapshot;
+  const esRecord = valor !== null && snapshotValor !== '' && valor > parseFloat(snapshotValor);
+
   carga.classList.toggle('vacio', valor === null);
+  carga.classList.toggle('record', esRecord);
   tarjeta.classList.toggle('completo', esComplet(ej));
   tarjeta.classList.toggle('pendiente', !esComplet(ej));
 
@@ -261,13 +324,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('btn-guardar').addEventListener('click', guardarSesionActual);
+  document.getElementById('btn-deshacer').addEventListener('click', deshacerCambios);
   document.getElementById('btn-guardar-config').addEventListener('click', guardarConfigDesdeFormulario);
 });
+
+function deshacerCambios() {
+  if (!snapshotSesion) return;
+  const sesion = datos.sesiones.find(s => s.id === sesionActualId);
+  sesion.ejercicios = JSON.parse(JSON.stringify(snapshotSesion.ejercicios));
+  renderEjercicios(sesion);
+}
 
 async function guardarSesionActual() {
   const sesion = datos.sesiones.find(s => s.id === sesionActualId);
   sesion.actualizadoEn = new Date().toISOString();
   guardarDatosLocales(datos);
+  snapshotSesion = JSON.parse(JSON.stringify(sesion));
+  renderEjercicios(sesion);
 
   const boton = document.getElementById('btn-guardar');
   boton.textContent = 'Guardado ✓';

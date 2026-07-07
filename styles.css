@@ -87,6 +87,19 @@ button {
   line-height: 1;
 }
 
+.banner-semana {
+  margin: 10px 0 0;
+  font-family: var(--fuente-datos);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--texto-suave);
+  background: var(--surface);
+  border: 1px solid var(--borde);
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
 .disco-sesiones {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -151,6 +164,12 @@ button {
   margin-top: 8px;
   font-size: 12px;
   color: var(--texto-suave);
+}
+
+.disco .disco-fecha {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--texto-tenue);
 }
 
 .btn-config {
@@ -309,6 +328,37 @@ button {
   border-color: var(--pendiente);
 }
 
+.campo-carga.record {
+  border-color: var(--exito);
+  background: rgba(76, 175, 125, 0.12);
+}
+
+.record-star {
+  display: none;
+  font-size: 13px;
+  margin-right: 2px;
+}
+
+.campo-carga.record .record-star {
+  display: inline;
+}
+
+.campo-nota-usuario {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  background: transparent;
+  border: none;
+  border-top: 1px dashed var(--borde);
+  padding-top: 8px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--texto-suave);
+  outline: none;
+}
+.campo-nota-usuario::placeholder { color: var(--texto-tenue); font-style: italic; }
+.campo-nota-usuario:focus { color: var(--texto); }
+
 .campo-carga label {
   font-size: 11px;
   color: var(--texto-suave);
@@ -367,10 +417,23 @@ button {
   margin: 0 auto;
   padding: 14px 20px calc(16px + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, transparent, var(--bg) 30%);
+  display: flex;
+  gap: 10px;
+}
+
+.btn-deshacer {
+  padding: 16px 18px;
+  border-radius: 30px;
+  background: var(--surface-alta);
+  border: 1px solid var(--borde);
+  color: var(--texto-suave);
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
 .btn-guardar {
-  width: 100%;
+  flex: 1;
   padding: 16px;
   border-radius: 30px;
   background: var(--acento, var(--texto));
