@@ -46,6 +46,32 @@ const migracionesEspeciales = {
     nuevo.opciones[0].peso = viejo.peso ?? null;
     nuevo.reps = viejo.reps ?? null;
     nuevo.notaUsuario = viejo.notaUsuario || null;
+  },
+  // "Extensión de cuádriceps" (pierna posterior) ganó una variante nueva (Sentadilla Pendular);
+  // el valor antiguo se conserva en la opción que ya existía.
+  'pp-2': (viejo, nuevo) => {
+    nuevo.opciones[0].peso = viejo.peso ?? null;
+    nuevo.reps = viejo.reps ?? null;
+    nuevo.notaUsuario = viejo.notaUsuario || null;
+  },
+  // "Tríceps katana" (espalda y pecho) ganó una variante nueva (cuerda trasnuca);
+  // el valor antiguo se conserva en la opción que ya existía.
+  'te-9': (viejo, nuevo) => {
+    nuevo.opciones[0].peso = viejo.peso ?? null;
+    nuevo.reps = viejo.reps ?? null;
+    nuevo.notaUsuario = viejo.notaUsuario || null;
+  },
+  'tp-8': (viejo, nuevo) => {
+    nuevo.opciones[0].peso = viejo.peso ?? null;
+    nuevo.reps = viejo.reps ?? null;
+    nuevo.notaUsuario = viejo.notaUsuario || null;
+  },
+  // "Remo unilateral" pasó a "Remo unilateral polea / máquina";
+  // el valor antiguo se conserva en la opción "polea" (mismo tipo, primera opción).
+  'tp-5': (viejo, nuevo) => {
+    nuevo.opciones[0].peso = viejo.peso ?? null;
+    nuevo.reps = viejo.reps ?? null;
+    nuevo.notaUsuario = viejo.notaUsuario || null;
   }
 };
 
