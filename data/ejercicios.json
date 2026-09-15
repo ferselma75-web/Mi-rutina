@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "sesiones": [
     {
       "id": "pierna-posterior",
@@ -18,11 +18,14 @@
         },
         {
           "id": "pp-2",
-          "nombre": "Extensión de cuádriceps",
-          "series": 2,
+          "nombre": "Extensión de cuádriceps / Sentadilla Pendular",
+          "series": 3,
           "reps": null,
-          "tipo": "porLado",
-          "peso": null
+          "tipo": "alternativa",
+          "opciones": [
+            { "nombre": "Extensión de cuádriceps", "tipo": "porLado", "peso": null },
+            { "nombre": "Sentadilla Pendular", "tipo": "porLado", "peso": null }
+          ]
         },
         {
           "id": "pp-3",
@@ -158,11 +161,14 @@
         },
         {
           "id": "te-9",
-          "nombre": "Tríceps katana",
+          "nombre": "Tríceps katana / Extensión tríceps cuerda trasnuca",
           "series": 2,
           "reps": null,
-          "tipo": "total",
-          "peso": null
+          "tipo": "alternativa",
+          "opciones": [
+            { "nombre": "Tríceps katana", "tipo": "total", "peso": null },
+            { "nombre": "Extensión tríceps cuerda trasnuca", "tipo": "total", "peso": null }
+          ]
         },
         {
           "id": "te-10",
@@ -283,12 +289,15 @@
         },
         {
           "id": "tp-5",
-          "nombre": "Remo unilateral",
+          "nombre": "Remo unilateral polea / Remo unilateral máquina",
           "series": 2,
           "reps": null,
-          "tipo": "total",
-          "peso": null,
-          "nota": "por brazo"
+          "tipo": "alternativa",
+          "nota": "por brazo",
+          "opciones": [
+            { "nombre": "Remo unilateral polea", "tipo": "total", "peso": null },
+            { "nombre": "Remo unilateral máquina", "tipo": "total", "peso": null }
+          ]
         },
         {
           "id": "tp-6",
@@ -309,11 +318,14 @@
         },
         {
           "id": "tp-8",
-          "nombre": "Tríceps katana",
+          "nombre": "Tríceps katana / Extensión tríceps cuerda trasnuca",
           "series": 2,
           "reps": null,
-          "tipo": "total",
-          "peso": null
+          "tipo": "alternativa",
+          "opciones": [
+            { "nombre": "Tríceps katana", "tipo": "total", "peso": null },
+            { "nombre": "Extensión tríceps cuerda trasnuca", "tipo": "total", "peso": null }
+          ]
         },
         {
           "id": "tp-9",
